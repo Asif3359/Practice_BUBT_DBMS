@@ -1,6 +1,8 @@
 module com.example.bubt {
     requires javafx.controls;
     requires javafx.fxml;
+    requires mysql.connector.j;
+    requires java.sql;
 
 
     opens com.example.bubt to javafx.fxml;

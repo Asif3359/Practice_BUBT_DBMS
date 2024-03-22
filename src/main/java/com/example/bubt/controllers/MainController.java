@@ -1,5 +1,6 @@
 package com.example.bubt.controllers;
 
+import com.example.bubt.utils.SqlDB;
 import com.example.bubt.utils.changeSceen;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -33,6 +34,9 @@ public class MainController {
     @FXML
     protected  void  onLogInButtonClick()
     {
+        SqlDB req = new SqlDB();
+        req.connect();
+
         fldEmail.setText("asifahammedNishat@gmail.com");
     }
     @FXML
