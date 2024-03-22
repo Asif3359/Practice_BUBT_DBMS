@@ -3,6 +3,7 @@ module com.example.bubt {
     requires javafx.fxml;
     requires mysql.connector.j;
     requires java.sql;
+    requires java.desktop;
 
 
     opens com.example.bubt to javafx.fxml;

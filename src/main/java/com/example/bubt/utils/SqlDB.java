@@ -6,25 +6,23 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class SqlDB {
+   public Connection databaseLink ;
+   public Connection getDatabaseLink () {
 
-    Connection cnt ;
-    String url ="jdbc:mysql://localhost/mysql" ;
-    String user="root";
-    String password="";
+        String url ="jdbc:mysql://localhost/university" ;
+        String user="root";
+        String password="";
 
-    public void connect()
-    {
         try {
             Class.forName("com.mysql.jdbc.Driver");
-            cnt = (Connection) DriverManager.getConnection(url,user,password);
+            databaseLink = (Connection) DriverManager.getConnection(url,user,password);
 
             System.out.println("connect successfully");
 
-        } catch (ClassNotFoundException e) {
-            throw new RuntimeException(e);
-        } catch (SQLException e) {
+        } catch (ClassNotFoundException | SQLException e) {
             throw new RuntimeException(e);
         }
-    }
 
+        return databaseLink;
+   }
 }
