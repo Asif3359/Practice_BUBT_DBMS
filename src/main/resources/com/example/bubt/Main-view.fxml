@@ -61,8 +61,8 @@
                         <Font size="16.0" />
                      </font>
                   </Label>
-                  <TextField fx:id="fldEmail" layoutX="22.0" layoutY="153.0" prefHeight="25.0" prefWidth="181.0" />
-                  <PasswordField fx:id="fldPassword" layoutX="22.0" layoutY="212.0" prefHeight="25.0" prefWidth="181.0" />
+                  <TextField fx:id="fldEmail" layoutX="22.0" layoutY="153.0" prefHeight="25.0" prefWidth="181.0" promptText="example@gmail.com" />
+                  <PasswordField fx:id="fldPassword" layoutX="22.0" layoutY="212.0" prefHeight="25.0" prefWidth="181.0" promptText="!c4@dk" />
                   <Button fx:id="btnLogIn" layoutX="24.0" layoutY="292.0" mnemonicParsing="false" onAction="#onLogInButtonClick" prefHeight="25.0" prefWidth="181.0" text="Login" />
                   <Label fx:id="WorningTxt" layoutX="23.0" layoutY="271.0" prefHeight="17.0" prefWidth="181.0" textFill="#df2828" wrapText="true">
                      <font>
