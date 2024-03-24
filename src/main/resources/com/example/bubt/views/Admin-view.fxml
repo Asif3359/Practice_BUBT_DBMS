@@ -6,6 +6,7 @@
 <?import javafx.scene.chart.StackedBarChart?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
 <?import javafx.scene.control.TextField?>
@@ -18,63 +19,61 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane fx:id="AdminBorderPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="411.0" prefWidth="757.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.bubt.controllers.AdminController">
+<BorderPane fx:id="AdminBorderPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="462.0" prefWidth="787.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.bubt.controllers.AdminController">
    <left>
-      <VBox alignment="TOP_CENTER" prefHeight="365.0" prefWidth="224.0" style="-fx-background-color: #196333;" BorderPane.alignment="CENTER">
+      <AnchorPane prefHeight="404.0" prefWidth="246.0" style="-fx-background-color: #196333;">
          <children>
-            <Button fx:id="btnDashboard" alignment="CENTER" mnemonicParsing="false" onAction="#onDahsBoardClicked" prefHeight="37.0" prefWidth="163.0" style="-fx-background-color: #25944c; -fx-border-color: #fcfcfc;" text="Dashboard" textFill="WHITE">
-               <VBox.margin>
-                  <Insets bottom="10.0" top="10.0" />
-               </VBox.margin>
-               <font>
-                  <Font name="System Bold" size="15.0" />
-               </font>
-            </Button>
-            <Button fx:id="btnDepartment" alignment="CENTER" layoutX="58.0" layoutY="244.0" mnemonicParsing="false" onAction="#OnDepartmentClicked" prefHeight="37.0" prefWidth="163.0" style="-fx-background-color: #25944c; -fx-border-color: #fcfcfc;" text="Department MS" textFill="WHITE">
-               <VBox.margin>
-                  <Insets bottom="10.0" top="10.0" />
-               </VBox.margin>
-               <font>
-                  <Font name="System Bold" size="15.0" />
-               </font>
-            </Button>
-            <Button fx:id="btnFinance" alignment="CENTER" layoutX="31.0" layoutY="31.0" mnemonicParsing="false" onAction="#OnFinanceClicked" prefHeight="37.0" prefWidth="163.0" style="-fx-background-color: #25944c; -fx-border-color: #fcfcfc;" text="Finance MS" textFill="WHITE">
-               <VBox.margin>
-                  <Insets bottom="10.0" top="10.0" />
-               </VBox.margin>
-               <font>
-                  <Font name="System Bold" size="15.0" />
-               </font>
-            </Button>
-            <Button fx:id="btnStudent" alignment="CENTER" layoutX="31.0" layoutY="31.0" mnemonicParsing="false" onAction="#OnStudentClicked" prefHeight="37.0" prefWidth="163.0" style="-fx-background-color: #25944c; -fx-border-color: #fcfcfc;" text="Student MS" textFill="WHITE">
-               <VBox.margin>
-                  <Insets bottom="10.0" top="10.0" />
-               </VBox.margin>
-               <font>
-                  <Font name="System Bold" size="15.0" />
-               </font>
-            </Button>
-            <Button fx:id="btnTeacher" alignment="CENTER" layoutX="31.0" layoutY="68.0" mnemonicParsing="false" onAction="#OnTeacherClicked" prefHeight="37.0" prefWidth="163.0" style="-fx-background-color: #25944c; -fx-border-color: #fcfcfc;" text="Teacher MS" textFill="WHITE">
-               <VBox.margin>
-                  <Insets bottom="10.0" top="10.0" />
-               </VBox.margin>
-               <font>
-                  <Font name="System Bold" size="15.0" />
-               </font>
-            </Button>
-            <Button fx:id="btnNotice" alignment="CENTER" layoutX="58.0" layoutY="196.0" mnemonicParsing="false" onAction="#OnNoticeClicked" prefHeight="37.0" prefWidth="163.0" style="-fx-background-color: #25944c; -fx-border-color: #fcfcfc;" text="Notice" textFill="WHITE">
-               <VBox.margin>
-                  <Insets bottom="10.0" top="10.0" />
-               </VBox.margin>
-               <font>
-                  <Font name="System Bold" size="15.0" />
-               </font>
-            </Button>
+            <ScrollPane fitToHeight="true" fitToWidth="true" hbarPolicy="NEVER" layoutY="0.8000030517578125" prefHeight="404.0" prefWidth="210.4" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+               <content>
+                  <VBox alignment="TOP_CENTER" spacing="15.0" style="-fx-background-color: #196333;">
+                     <children>
+                        <Button fx:id="btnDashboard" alignment="CENTER" mnemonicParsing="false" onAction="#onDahsBoardClicked" prefHeight="37.0" prefWidth="163.0" style="-fx-background-color: #25944c; -fx-border-color: #fcfcfc;" text="Dashboard" textFill="WHITE">
+                           <font>
+                              <Font name="System Bold" size="15.0" />
+                           </font>
+                           <VBox.margin>
+                              <Insets top="20.0" />
+                           </VBox.margin>
+                        </Button>
+                        <Button fx:id="btnDepartment" alignment="CENTER" mnemonicParsing="false" onAction="#OnDepartmentClicked" prefHeight="37.0" prefWidth="163.0" style="-fx-background-color: #25944c; -fx-border-color: #fcfcfc;" text="Department MS" textFill="WHITE">
+                           <font>
+                              <Font name="System Bold" size="15.0" />
+                           </font>
+                        </Button>
+                        <Button fx:id="btnStudent" alignment="CENTER" mnemonicParsing="false" onAction="#OnStudentClicked" prefHeight="37.0" prefWidth="163.0" style="-fx-background-color: #25944c; -fx-border-color: #fcfcfc;" text="Student MS" textFill="WHITE">
+                           <font>
+                              <Font name="System Bold" size="15.0" />
+                           </font>
+                        </Button>
+                        <Button fx:id="btnFinance" alignment="CENTER" mnemonicParsing="false" onAction="#OnFinanceClicked" prefHeight="37.0" prefWidth="163.0" style="-fx-background-color: #25944c; -fx-border-color: #fcfcfc;" text="Finance MS" textFill="WHITE">
+                           <font>
+                              <Font name="System Bold" size="15.0" />
+                           </font>
+                        </Button>
+                        <Button fx:id="btnTeacher" alignment="CENTER" mnemonicParsing="false" onAction="#OnTeacherClicked" prefHeight="37.0" prefWidth="163.0" style="-fx-background-color: #25944c; -fx-border-color: #fcfcfc;" text="Teacher MS" textFill="WHITE">
+                           <font>
+                              <Font name="System Bold" size="15.0" />
+                           </font>
+                        </Button>
+                        <Button fx:id="btnNotice" alignment="CENTER" mnemonicParsing="false" onAction="#OnNoticeClicked" prefHeight="37.0" prefWidth="163.0" style="-fx-background-color: #25944c; -fx-border-color: #fcfcfc;" text="Notice" textFill="WHITE">
+                           <font>
+                              <Font name="System Bold" size="15.0" />
+                           </font>
+                        </Button>
+                        <Button fx:id="btnCalender" alignment="CENTER" mnemonicParsing="false" onAction="#OnCalenderClicked" prefHeight="37.0" prefWidth="163.0" style="-fx-background-color: #25944c; -fx-border-color: #fcfcfc;" text="Calender" textFill="WHITE">
+                           <font>
+                              <Font name="System Bold" size="15.0" />
+                           </font>
+                           <VBox.margin>
+                              <Insets bottom="15.0" />
+                           </VBox.margin>
+                        </Button>
+                     </children>
+                  </VBox>
+               </content>
+            </ScrollPane>
          </children>
-         <BorderPane.margin>
-            <Insets />
-         </BorderPane.margin>
-      </VBox>
+      </AnchorPane>
    </left>
    <center>
       <AnchorPane fx:id="AdminAnchorPane" nodeOrientation="LEFT_TO_RIGHT" BorderPane.alignment="CENTER">
@@ -156,7 +155,7 @@
    <top>
       <AnchorPane prefHeight="58.0" prefWidth="758.0" style="-fx-background-color: #196333;" BorderPane.alignment="CENTER">
          <children>
-            <GridPane alignment="CENTER_LEFT" nodeOrientation="LEFT_TO_RIGHT" prefHeight="46.4" prefWidth="757.6" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <GridPane alignment="CENTER_LEFT" layoutX="279.2" nodeOrientation="LEFT_TO_RIGHT" prefHeight="58.0" prefWidth="508.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
               <columnConstraints>
                 <ColumnConstraints hgrow="SOMETIMES" maxWidth="295.199951171875" minWidth="10.0" prefWidth="222.6" />
                   <ColumnConstraints hgrow="SOMETIMES" maxWidth="295.199951171875" minWidth="10.0" prefWidth="210.6" />
@@ -169,7 +168,7 @@
                <children>
                   <AnchorPane prefHeight="46.0" prefWidth="234.0">
                      <children>
-                        <Label alignment="CENTER" contentDisplay="CENTER" graphicTextGap="0.0" nodeOrientation="LEFT_TO_RIGHT" prefHeight="46.4" prefWidth="225.6" text="Admin" textFill="WHITE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                        <Label alignment="CENTER" contentDisplay="CENTER" graphicTextGap="0.0" layoutX="59.2" nodeOrientation="LEFT_TO_RIGHT" prefHeight="58.4" prefWidth="230.4" text="Admin" textFill="WHITE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                            <font>
                               <Font name="System Bold" size="30.0" />
                            </font>

@@ -44,10 +44,15 @@ public class AdminController {
     private Button btnNotice;
 
     @FXML
+    private Button btnCalender;
+
+    @FXML
     private Label CountStudent;
 
     @FXML
     private Label CountTeacher;
+
+
 
     @FXML
     private StackedBarChart<String, Number> studentYearChart;
@@ -63,6 +68,7 @@ public class AdminController {
         TeacherBackGroundRemove();
         FinanceBackGroundRemove();
         NoticeBackGroundRemove();
+        CalenderBackGroundRemove();
         btnDashboard.setStyle("-fx-border-color: white; -fx-background-color:#12542c");
         AdminBorderPane.setCenter(AdminAnchorPane);
     }
@@ -74,6 +80,7 @@ public class AdminController {
         TeacherBackGroundRemove();
         FinanceBackGroundRemove();
         NoticeBackGroundRemove();
+        CalenderBackGroundRemove();
         btnStudent.setStyle("-fx-border-color: white; -fx-background-color:#12542c");
         loadPage("/com/example/bubt/views/Admin-view/AdStudent-view.fxml");
     }
@@ -85,6 +92,7 @@ public class AdminController {
         StudentBackGroundRemove();
         FinanceBackGroundRemove();
         NoticeBackGroundRemove();
+        CalenderBackGroundRemove();
         btnTeacher.setStyle("-fx-border-color: white; -fx-background-color:#12542c");
         loadPage("/com/example/bubt/views/Admin-view/AdTeacher-view.fxml");
     }
@@ -96,6 +104,7 @@ public class AdminController {
         StudentBackGroundRemove();
         TeacherBackGroundRemove();
         NoticeBackGroundRemove();
+        CalenderBackGroundRemove();
         btnFinance.setStyle("-fx-border-color: white; -fx-background-color:#12542c");
         loadPage("/com/example/bubt/views/Admin-view/AdFinance-view.fxml");
     }
@@ -107,6 +116,7 @@ public class AdminController {
         TeacherBackGroundRemove();
         FinanceBackGroundRemove();
         NoticeBackGroundRemove();
+        CalenderBackGroundRemove();
         btnDepartment.setStyle("-fx-border-color: white; -fx-background-color:#12542c");
         loadPage("/com/example/bubt/views/Admin-view/AdDepartment-view.fxml");
     }
@@ -118,8 +128,21 @@ public class AdminController {
         StudentBackGroundRemove();
         TeacherBackGroundRemove();
         FinanceBackGroundRemove();
+        CalenderBackGroundRemove();
         btnNotice.setStyle("-fx-border-color: white; -fx-background-color:#12542c");
         loadPage("/com/example/bubt/views/Admin-view/AdNotice-view.fxml");
+    }
+    @FXML
+    protected void OnCalenderClicked()
+    {
+        DashBoardBackGroundRemove();
+        DepartmentBackGroundRemove();
+        StudentBackGroundRemove();
+        NoticeBackGroundRemove();
+        TeacherBackGroundRemove();
+        FinanceBackGroundRemove();
+        btnCalender.setStyle("-fx-border-color: white; -fx-background-color:#12542c");
+        loadPage("/com/example/bubt/views/Admin-view/AdCalender-view.fxml");
     }
 
     public void  initialize ()
@@ -240,6 +263,9 @@ public class AdminController {
     }
     public  void  NoticeBackGroundRemove() {
         btnNotice.setStyle("-fx-border-color: white; -fx-background-color:#25944c");
+    }
+    public void CalenderBackGroundRemove(){
+        btnCalender.setStyle("-fx-border-color: white; -fx-background-color:#25944c");
     }
 
 }
