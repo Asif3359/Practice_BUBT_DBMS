@@ -5,9 +5,11 @@ module com.example.bubt {
     requires java.sql;
     requires java.desktop;
 
-
     opens com.example.bubt to javafx.fxml;
+    opens com.example.bubt.controllers to javafx.fxml;
+    opens com.example.bubt.controllers.AdminControllers to javafx.fxml;
+
     exports com.example.bubt;
     exports com.example.bubt.controllers;
-    opens com.example.bubt.controllers to javafx.fxml;
+    exports com.example.bubt.controllers.AdminControllers;
 }

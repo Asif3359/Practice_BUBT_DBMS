@@ -1,5 +1,6 @@
 package com.example.bubt.controllers;
 
+import com.example.bubt.controllers.AdminControllers.AdStudentController;
 import com.example.bubt.utils.SqlDB;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -20,7 +21,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class AdminController {
+public class AdminController  {
+//    private  studentController;
     @FXML
     private BorderPane AdminBorderPane;
     @FXML
@@ -52,8 +54,6 @@ public class AdminController {
     @FXML
     private Label CountTeacher;
 
-
-
     @FXML
     private StackedBarChart<String, Number> studentYearChart;
 
@@ -83,6 +83,7 @@ public class AdminController {
         CalenderBackGroundRemove();
         btnStudent.setStyle("-fx-border-color: white; -fx-background-color:#12542c");
         loadPage("/com/example/bubt/views/Admin-view/AdStudent-view.fxml");
+
     }
     @FXML
     protected void OnTeacherClicked()
@@ -234,20 +235,20 @@ public class AdminController {
     protected void  loadPage(String page) {
         Parent root = null;
         try {
-            root = FXMLLoader.load(getClass().getResource(page));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource(page));
+            root = loader.load();
+
+            AdStudentController studentController = loader.getController();
+
+            AdminBorderPane.setCenter(root);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        AdminBorderPane.setCenter(root);
+
     }
 
     public void DashBoardBackGroundRemove() {
         btnDashboard.setStyle("-fx-border-color: white; -fx-background-color:#25944c");
-//        btnDepartment.setStyle("-fx-border-color: white; -fx-background-color:#25944c");
-//        btnStudent.setStyle("-fx-border-color: white; -fx-background-color:#25944c");
-//        btnTeacher.setStyle("-fx-border-color: white; -fx-background-color:#25944c");
-//        btnFinance.setStyle("-fx-border-color: white; -fx-background-color:#25944c");
-//        btnNotice.setStyle("-fx-border-color: white; -fx-background-color:#25944c");
     }
     public void DepartmentBackGroundRemove() {
         btnDepartment.setStyle("-fx-border-color: white; -fx-background-color:#25944c");
