@@ -9,6 +9,8 @@ module com.example.bubt {
     opens com.example.bubt.controllers to javafx.fxml;
     opens com.example.bubt.controllers.AdminControllers to javafx.fxml;
 
+    opens com.example.bubt.utils to javafx.base;
+
     exports com.example.bubt;
     exports com.example.bubt.controllers;
     exports com.example.bubt.controllers.AdminControllers;

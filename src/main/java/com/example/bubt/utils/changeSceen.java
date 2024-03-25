@@ -21,7 +21,7 @@ public class changeSceen extends Application {
     public void start(Stage stage) throws Exception {
         FXMLLoader fxmlLoader;
         fxmlLoader = new FXMLLoader(Main.class.getResource(file));
-        Scene scene = new Scene(fxmlLoader.load(), 900, 500);
+        Scene scene = new Scene(fxmlLoader.load(), 1000, 600);
         stage.setTitle(title);
         stage.setScene(scene);
         stage.show();

@@ -1,10 +1,12 @@
 package com.example.bubt.controllers.AdminControllers;
 
 import com.example.bubt.utils.SqlDB;
+import com.example.bubt.utils.Student;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -14,7 +16,6 @@ import java.sql.SQLException;
 public class AdStudentController {
     @FXML
     private Button btnSubmitStudent;
-
     @FXML
     private TextField StFdName;
     @FXML
@@ -34,6 +35,26 @@ public class AdStudentController {
     @FXML
     private TextField StFdCity;
     @FXML
+    private TableView<Student> stViewTable;
+    @FXML
+    private TableColumn<Student, Integer> TablestId;
+    @FXML
+    private TableColumn<Student, String> TableStName;
+    @FXML
+    private TableColumn<Student, String> TableStEmail;
+    @FXML
+    private TableColumn<Student, String> TableStIntake;
+    @FXML
+    private TableColumn<Student, String> TableStSection;
+    @FXML
+    private TableColumn<Student, String> TableStPhone;
+    @FXML
+    private TableColumn<Student, String> TableStAddress;
+    @FXML
+    private TableColumn<Student, String> TableStSubject;
+    @FXML
+    private TableColumn<Student, String> TableStPassword;
+    @FXML
     public void  OnSubmitStudentClicked(){
         String name = StFdName.getText();
         String email = StFdEmail.getText();
@@ -49,8 +70,8 @@ public class AdStudentController {
         {
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("Error");
-            alert.setHeaderText(null);
-            alert.setContentText("Text field is empty?");
+            alert.setHeaderText("Text field is empty");
+            alert.setContentText(null);
             alert.showAndWait();
         }
         else {
@@ -101,11 +122,13 @@ public class AdStudentController {
                             StFdPassword.setText("");
                             StFdAddress.setText("");
                             StFdCity.setText("");
+
                             Alert alert = new Alert(Alert.AlertType.INFORMATION);
                             alert.setTitle("Success");
-                            alert.setHeaderText(null);
-                            alert.setContentText("A new record has been inserted successfully.");
+                            alert.setHeaderText("A new record has been inserted successfully.");
+                            alert.setContentText(null);
                             alert.showAndWait();
+
                         }
                         else
                         {
@@ -115,6 +138,7 @@ public class AdStudentController {
                             alert.setContentText("Some problem to insert New Record");
                             alert.showAndWait();
                         }
+
                     }
                 }
                 else
@@ -131,8 +155,75 @@ public class AdStudentController {
                 System.out.println("Error inserting record: " + e.getMessage());
             }
         }
+    }
+    @FXML
+    public void initialize() {
 
+        populateTableView();
+    }
 
+    // Method to fetch data from the database and populate the TableView
+    private void populateTableView() {
+        TablestId.setCellValueFactory(new PropertyValueFactory<>("userID"));
+        TableStName.setCellValueFactory(new PropertyValueFactory<>("name"));
+        TableStEmail.setCellValueFactory(new PropertyValueFactory<>("email"));
+        TableStIntake.setCellValueFactory(new PropertyValueFactory<>("intake"));
+        TableStSection.setCellValueFactory(new PropertyValueFactory<>("section"));
+        TableStPhone.setCellValueFactory(new PropertyValueFactory<>("phone"));
+        TableStAddress.setCellValueFactory(new PropertyValueFactory<>("address"));
+        TableStSubject.setCellValueFactory(new PropertyValueFactory<>("subject"));
+        TableStPassword.setCellValueFactory(new PropertyValueFactory<>("password"));
+        try {
+            // Create a connection to your database
+            SqlDB reqDB = new SqlDB();
+            Connection connection = reqDB.getDatabaseLink(); // Replace YourDatabaseUtil.getConnection() with your actual method to get a database connection
 
+            // SQL query to fetch data from the studenttable
+            String query = "SELECT * FROM studenttable";
+
+            // Create a PreparedStatement object
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
+
+            // Execute the query and get the result set
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            // Create an ObservableList to store the student data
+            ObservableList<Student> students = FXCollections.observableArrayList();
+
+            // Loop through the result set and add student objects to the ObservableList
+            while (resultSet.next()) {
+                Student student = new Student(
+                        resultSet.getInt("user_ID"),
+                        resultSet.getString("Name"),
+                        resultSet.getString("Email"),
+                        resultSet.getString("Intake"),
+                        resultSet.getString("Section"),
+                        resultSet.getString("Phone"),
+                        resultSet.getString("Address"),
+                        resultSet.getString("Subject"),
+                        resultSet.getString("Password")
+                );
+                students.add(student);
+            }
+
+            // Set the data to the TableView
+            stViewTable.setItems(students);
+
+            // Close the result set, statement, and connection
+            resultSet.close();
+            preparedStatement.close();
+            connection.close();
+
+        } catch (SQLException e) {
+            // Handle any SQL exceptions
+            e.printStackTrace();
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText("Failed to fetch data");
+            alert.setContentText("An error occurred while fetching data from the database.");
+            alert.showAndWait();
+        }
     }
 }
+
+

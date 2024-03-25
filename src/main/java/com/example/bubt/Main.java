@@ -12,7 +12,7 @@ public class Main extends Application {
     public void start(Stage stage) throws IOException {
         FXMLLoader fxmlLoader;
         fxmlLoader = new FXMLLoader(Main.class.getResource("Main-view.fxml"));
-        Scene scene = new Scene(fxmlLoader.load(), 900, 500);
+        Scene scene = new Scene(fxmlLoader.load(), 1000, 600);
         stage.setTitle("BUBT-Login ");
         stage.setScene(scene);
         stage.show();

@@ -1,6 +1,8 @@
 package com.example.bubt.utils;
 
 
+import javafx.scene.control.Alert;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -20,13 +22,17 @@ public class SqlDB {
             Class.forName("com.mysql.jdbc.Driver");
             databaseLink = (Connection) DriverManager.getConnection(url,user,password);
 
-            //System.out.println("connect successfully");
+            return databaseLink;
 
         } catch (ClassNotFoundException | SQLException e) {
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Error");
+            alert.setHeaderText("Database is not connected!");
+            alert.setContentText(null);
+            alert.showAndWait();
             throw new RuntimeException(e);
         }
 
-        return databaseLink;
    }
 
    public PreparedStatement Statement(String sqlStatement )
@@ -38,6 +44,11 @@ public class SqlDB {
             return statement ;
 
        } catch (SQLException e) {
+           Alert alert = new Alert(Alert.AlertType.INFORMATION);
+           alert.setTitle("Error");
+           alert.setHeaderText("Database is not connected!");
+           alert.setContentText(null);
+           alert.showAndWait();
            throw new RuntimeException(e);
        }
 
