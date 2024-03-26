@@ -39,6 +39,8 @@ public class AdStudentController {
     @FXML
     private TableView<Student> stViewTable;
     @FXML
+    private TableColumn<Student, Integer> TablestStudentId;
+    @FXML
     private TableColumn<Student, Integer> TablestId;
     @FXML
     private TableColumn<Student, String> TableStName;
@@ -56,6 +58,32 @@ public class AdStudentController {
     private TableColumn<Student, String> TableStSubject;
     @FXML
     private TableColumn<Student, String> TableStPassword;
+    @FXML
+    private TextField TfStStId;
+    @FXML
+    private TextField TfStId;
+    @FXML
+    private TextField TfStName;
+    @FXML
+    private TextField TfStEmail;
+    @FXML
+    private TextField TfStIntake;
+    @FXML
+    private TextField TfStSection;
+    @FXML
+    private TextField TfStSubject;
+    @FXML
+    private TextField TfStAddress;
+    @FXML
+    private TextField TfStPhone;
+    @FXML
+    private TextField TfStPassword;
+
+    @FXML
+    private Button BtnSearch;
+    @FXML
+    private TextField TfSearchFld;
+
 
     @FXML
     public void OnSubmitStudentClicked() {
@@ -114,9 +142,11 @@ public class AdStudentController {
     @FXML
     public void initialize() {
         populateTableView();
+        handleRowSelection();
     }
 
     private void populateTableView() {
+        TablestStudentId.setCellValueFactory(new PropertyValueFactory<>("Student_ID"));
         TablestId.setCellValueFactory(new PropertyValueFactory<>("userID"));
         TableStName.setCellValueFactory(new PropertyValueFactory<>("name"));
         TableStEmail.setCellValueFactory(new PropertyValueFactory<>("email"));
@@ -134,7 +164,7 @@ public class AdStudentController {
 
             ObservableList<Student> students = FXCollections.observableArrayList();
             while (resultSet.next()) {
-                Student student = new Student(resultSet.getInt("user_ID"), resultSet.getString("Name"), resultSet.getString("Email"), resultSet.getString("Intake"), resultSet.getString("Section"), resultSet.getString("Phone"), resultSet.getString("Address"), resultSet.getString("Subject"), resultSet.getString("Password"));
+                Student student = new Student(resultSet.getInt("Student_ID"), resultSet.getInt("user_ID"), resultSet.getString("Name"), resultSet.getString("Email"), resultSet.getString("Intake"), resultSet.getString("Section"), resultSet.getString("Phone"), resultSet.getString("Address"), resultSet.getString("Subject"), resultSet.getString("Password"));
                 students.add(student);
             }
 
@@ -165,5 +195,70 @@ public class AdStudentController {
         StFdPassword.clear();
         StFdAddress.clear();
         StFdCity.clear();
+    }
+
+    private void handleRowSelection() {
+        // Add listener to print row values when a row is clicked
+        stViewTable.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
+            if (newSelection != null) {
+                // Print the values of the selected row
+                setTextField(newSelection);
+            }
+        });
+    }
+
+    private void setTextField(Student student) {
+        TfStStId.setText("" + student.getStudent_ID());
+        TfStId.setText("" + student.getUserID());
+        TfStName.setText("" + student.getName());
+        TfStEmail.setText("" + student.getEmail());
+        TfStIntake.setText("" + student.getIntake());
+        TfStSection.setText("" + student.getSection());
+        TfStPhone.setText("" + student.getPhone());
+        TfStAddress.setText("" + student.getAddress());
+        TfStSubject.setText("" + student.getSubject());
+        TfStPassword.setText("" + student.getPassword());
+    }
+
+    public void oneActionSearchButton() {
+        String ID = TfSearchFld.getText();
+        if (!ID.isEmpty()) {
+            int studentId = Integer.parseInt(ID);
+            try {
+                SqlDB reqDB = new SqlDB();
+                String query = "SELECT * FROM studenttable WHERE Student_ID = ?";
+                Object[] params = {studentId};
+                ResultSet resultSet = reqDB.ExecuteQuery(query, params);
+
+
+                if (!resultSet.next()) {
+                    // No record found, show a message
+                    showAlert("Error", "No record found for the provided student ID.");
+                } else {
+                    // Record found, proceed with data retrieval and display
+                    do {
+                        TfStStId.setText("" + resultSet.getInt("Student_ID"));
+                        TfStId.setText("" + resultSet.getInt("user_ID"));
+                        TfStName.setText("" + resultSet.getString("Name"));
+                        TfStEmail.setText("" + resultSet.getString("Email"));
+                        TfStIntake.setText("" + resultSet.getString("Intake"));
+                        TfStSection.setText("" + resultSet.getString("Section"));
+                        TfStPhone.setText("" + resultSet.getString("Phone"));
+                        TfStAddress.setText("" + resultSet.getString("Address"));
+                        TfStSubject.setText("" + resultSet.getString("Subject"));
+                        TfStPassword.setText("" + resultSet.getString("Password"));
+                    } while (resultSet.next());
+
+                    resultSet.close();
+                }
+
+            } catch (SQLException e) {
+                showAlert("Error", "Failed to fetch data from the database.");
+                e.printStackTrace();
+            }
+        } else {
+            showAlert("Error", "Text field is empty");
+        }
+
     }
 }

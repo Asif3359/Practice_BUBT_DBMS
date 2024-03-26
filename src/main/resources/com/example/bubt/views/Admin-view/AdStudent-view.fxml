@@ -112,8 +112,8 @@
                      <children>
                         <GridPane prefHeight="476.8" prefWidth="818.4" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                           <columnConstraints>
-                            <ColumnConstraints hgrow="SOMETIMES" maxWidth="1.7976931348623157E308" minWidth="100.0" />
-                            <ColumnConstraints hgrow="SOMETIMES" maxWidth="427.20002441406245" minWidth="10.0" prefWidth="124.00001220703132" />
+                            <ColumnConstraints hgrow="SOMETIMES" maxWidth="1.7976931348623157E308" minWidth="100.0" prefWidth="658.9999755859375" />
+                            <ColumnConstraints hgrow="SOMETIMES" maxWidth="1.7976931348623157E308" minWidth="10.0" prefWidth="148.60002441406243" />
                           </columnConstraints>
                           <rowConstraints>
                             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
@@ -121,12 +121,13 @@
                            <children>
                               <ScrollPane fitToHeight="true" fitToWidth="true" prefHeight="477.0" prefWidth="679.0">
                                  <GridPane.margin>
-                                    <Insets right="10.0" />
+                                    <Insets right="5.0" />
                                  </GridPane.margin>
                                  <content>
-                                    <TableView fx:id="stViewTable" editable="true" prefHeight="200.0" prefWidth="200.0">
+                                    <TableView fx:id="stViewTable" editable="true">
                                       <columns>
-                                        <TableColumn fx:id="TablestId" prefWidth="75.0" text="ID" />
+                                          <TableColumn fx:id="TablestStudentId" prefWidth="75.0" text="Student-ID" />
+                                        <TableColumn fx:id="TablestId" prefWidth="75.0" text="User-ID" />
                                         <TableColumn fx:id="TableStName" prefWidth="75.0" text="Name" />
                                           <TableColumn fx:id="TableStEmail" prefWidth="75.0" text="Email" />
                                           <TableColumn fx:id="TableStIntake" prefWidth="75.0" text="Intake" />
@@ -142,10 +143,111 @@
                                     </TableView>
                                  </content>
                               </ScrollPane>
-                              <AnchorPane prefHeight="477.0" prefWidth="146.0" GridPane.columnIndex="1" />
+                              <HBox prefHeight="476.8" prefWidth="177.6" GridPane.columnIndex="1">
+                                 <children>
+                                    <GridPane prefHeight="476.8" prefWidth="178.4">
+                                      <columnConstraints>
+                                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                      </columnConstraints>
+                                      <rowConstraints>
+                                          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                      </rowConstraints>
+                                       <children>
+                                          <HBox alignment="CENTER_LEFT" GridPane.rowIndex="2">
+                                             <children>
+                                                <Label minHeight="-Infinity" minWidth="-Infinity" prefHeight="18.0" prefWidth="76.0" text="ID" />
+                                                <TextField fx:id="TfStId" minWidth="-Infinity" />
+                                             </children>
+                                          </HBox>
+                                          <HBox alignment="CENTER_LEFT" GridPane.rowIndex="7">
+                                             <children>
+                                                <Label minHeight="-Infinity" minWidth="-Infinity" prefWidth="76.0" text="Subject" />
+                                                <TextField fx:id="TfStSubject" minWidth="-Infinity" />
+                                             </children>
+                                          </HBox>
+                                          <HBox alignment="CENTER_LEFT" GridPane.rowIndex="3">
+                                             <children>
+                                                <Label minHeight="-Infinity" minWidth="-Infinity" prefHeight="18.0" prefWidth="76.0" text="Name" />
+                                                <TextField fx:id="TfStName" minWidth="-Infinity" />
+                                             </children>
+                                          </HBox>
+                                          <HBox alignment="CENTER_LEFT" GridPane.rowIndex="6">
+                                             <children>
+                                                <Label minHeight="-Infinity" minWidth="-Infinity" prefWidth="76.0" text="Section" />
+                                                <TextField fx:id="TfStSection" minWidth="-Infinity" />
+                                             </children>
+                                          </HBox>
+                                          <HBox alignment="CENTER_LEFT" GridPane.rowIndex="4">
+                                             <children>
+                                                <Label fx:id="ShowStEmail" minHeight="-Infinity" minWidth="-Infinity" prefHeight="18.0" prefWidth="76.0" text="Email" />
+                                                <TextField fx:id="TfStEmail" minWidth="-Infinity" />
+                                             </children>
+                                          </HBox>
+                                          <HBox alignment="CENTER_LEFT" GridPane.rowIndex="5">
+                                             <children>
+                                                <Label fx:id="ShowStIntake" minHeight="-Infinity" minWidth="-Infinity" prefWidth="76.0" text="Intake" />
+                                                <TextField fx:id="TfStIntake" minWidth="-Infinity" />
+                                             </children>
+                                          </HBox>
+                                          <HBox alignment="CENTER_LEFT" GridPane.rowIndex="8">
+                                             <children>
+                                                <Label fx:id="ShowStAddress" minHeight="-Infinity" minWidth="-Infinity" prefWidth="76.0" text="Address" />
+                                                <TextField fx:id="TfStAddress" minHeight="-Infinity" minWidth="-Infinity" />
+                                             </children>
+                                          </HBox>
+                                          <HBox alignment="CENTER_LEFT" GridPane.rowIndex="9">
+                                             <children>
+                                                <Label minHeight="-Infinity" minWidth="-Infinity" prefWidth="76.0" text="Phone" />
+                                                <TextField fx:id="TfStPhone" minWidth="-Infinity" />
+                                             </children>
+                                          </HBox>
+                                          <HBox alignment="CENTER_LEFT" GridPane.rowIndex="10">
+                                             <children>
+                                                <Label minHeight="-Infinity" minWidth="-Infinity" prefWidth="76.0" text="Password" />
+                                                <TextField fx:id="TfStPassword" minWidth="-Infinity" />
+                                             </children>
+                                          </HBox>
+                                          <HBox alignment="CENTER_LEFT" spacing="5.0">
+                                             <children>
+                                                <TextField fx:id="TfSearchFld" minHeight="-Infinity" minWidth="-Infinity" />
+                                                <Button fx:id="BtnSearch" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#oneActionSearchButton" prefHeight="26.0" prefWidth="76.0" text="Search" />
+                                             </children>
+                                          </HBox>
+                                          <HBox alignment="CENTER_LEFT" GridPane.rowIndex="11">
+                                             <children>
+                                                <Button minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="29.0" prefWidth="76.0" text="Button" />
+                                             </children>
+                                          </HBox>
+                                          <HBox alignment="CENTER_LEFT" GridPane.rowIndex="1">
+                                             <children>
+                                                <Label minHeight="-Infinity" minWidth="-Infinity" prefHeight="18.0" prefWidth="76.0" text="ST_ID" />
+                                                <TextField fx:id="TfStStId" minWidth="-Infinity" />
+                                             </children>
+                                          </HBox>
+                                       </children>
+                                       <padding>
+                                          <Insets right="10.0" />
+                                       </padding>
+                                    </GridPane>
+                                 </children>
+                              </HBox>
                            </children>
                         </GridPane>
-                     </children></AnchorPane>
+                     </children>
+                     <padding>
+                        <Insets right="10.0" />
+                     </padding></AnchorPane>
             </content>
           </Tab>
         </tabs>

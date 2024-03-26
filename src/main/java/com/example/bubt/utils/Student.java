@@ -2,6 +2,7 @@ package com.example.bubt.utils;
 
 public class Student {
 
+        private int Student_ID;
         private int userID;
         private String name;
         private String email;
@@ -12,7 +13,8 @@ public class Student {
         private String subject;
         private String password;
 
-        public Student(int userID, String name, String email, String intake, String section, String phone, String address, String subject, String password) {
+        public Student(int Student_ID ,int userID, String name, String email, String intake, String section, String phone, String address, String subject, String password) {
+            this.Student_ID=Student_ID;
             this.userID = userID;
             this.name = name;
             this.email = email;
@@ -25,6 +27,12 @@ public class Student {
         }
 
         // Getters and setters
+        public  int getStudent_ID(){
+            return Student_ID;
+        }
+        public void setStudent_ID(int Student_ID){
+            this.Student_ID=Student_ID;
+        }
         public int getUserID() {
             return userID;
         }
