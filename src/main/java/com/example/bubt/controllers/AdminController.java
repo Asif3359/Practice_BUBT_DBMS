@@ -21,8 +21,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class AdminController  {
-//    private  studentController;
+public class AdminController {
+    //    private  studentController;
     @FXML
     private BorderPane AdminBorderPane;
     @FXML
@@ -61,8 +61,7 @@ public class AdminController  {
     private StackedBarChart<String, Number> assetYearChart;
 
     @FXML
-    protected void onDahsBoardClicked()
-    {
+    protected void onDahsBoardClicked() {
         DepartmentBackGroundRemove();
         StudentBackGroundRemove();
         TeacherBackGroundRemove();
@@ -72,9 +71,9 @@ public class AdminController  {
         btnDashboard.setStyle("-fx-border-color: white; -fx-background-color:#12542c");
         AdminBorderPane.setCenter(AdminAnchorPane);
     }
+
     @FXML
-    protected void OnStudentClicked()
-    {
+    protected void OnStudentClicked() {
         DashBoardBackGroundRemove();
         DepartmentBackGroundRemove();
         TeacherBackGroundRemove();
@@ -85,9 +84,9 @@ public class AdminController  {
         loadPage("/com/example/bubt/views/Admin-view/AdStudent-view.fxml");
 
     }
+
     @FXML
-    protected void OnTeacherClicked()
-    {
+    protected void OnTeacherClicked() {
         DashBoardBackGroundRemove();
         DepartmentBackGroundRemove();
         StudentBackGroundRemove();
@@ -97,9 +96,9 @@ public class AdminController  {
         btnTeacher.setStyle("-fx-border-color: white; -fx-background-color:#12542c");
         loadPage("/com/example/bubt/views/Admin-view/AdTeacher-view.fxml");
     }
+
     @FXML
-    protected void OnFinanceClicked()
-    {
+    protected void OnFinanceClicked() {
         DashBoardBackGroundRemove();
         DepartmentBackGroundRemove();
         StudentBackGroundRemove();
@@ -109,9 +108,9 @@ public class AdminController  {
         btnFinance.setStyle("-fx-border-color: white; -fx-background-color:#12542c");
         loadPage("/com/example/bubt/views/Admin-view/AdFinance-view.fxml");
     }
+
     @FXML
-    protected void OnDepartmentClicked()
-    {
+    protected void OnDepartmentClicked() {
         DashBoardBackGroundRemove();
         StudentBackGroundRemove();
         TeacherBackGroundRemove();
@@ -121,9 +120,9 @@ public class AdminController  {
         btnDepartment.setStyle("-fx-border-color: white; -fx-background-color:#12542c");
         loadPage("/com/example/bubt/views/Admin-view/AdDepartment-view.fxml");
     }
+
     @FXML
-    protected void OnNoticeClicked()
-    {
+    protected void OnNoticeClicked() {
         DashBoardBackGroundRemove();
         DepartmentBackGroundRemove();
         StudentBackGroundRemove();
@@ -133,9 +132,9 @@ public class AdminController  {
         btnNotice.setStyle("-fx-border-color: white; -fx-background-color:#12542c");
         loadPage("/com/example/bubt/views/Admin-view/AdNotice-view.fxml");
     }
+
     @FXML
-    protected void OnCalenderClicked()
-    {
+    protected void OnCalenderClicked() {
         DashBoardBackGroundRemove();
         DepartmentBackGroundRemove();
         StudentBackGroundRemove();
@@ -146,15 +145,19 @@ public class AdminController  {
         loadPage("/com/example/bubt/views/Admin-view/AdCalender-view.fxml");
     }
 
-    public void  initialize ()
-    {
+    public void initialize() {
         btnDashboard.setStyle("-fx-border-color: white; -fx-background-color:#25944c");
         //todo
         SqlDB reqDB = new SqlDB();
-        Connection connectDB = reqDB.getDatabaseLink();
+        Connection connectDB = null;
+        try {
+            connectDB = reqDB.getDatabaseLink();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
         String StudentCount = "SELECT count(Role) from usertable where Role='Student'";
         String TeacherCount = "SELECT count(Role) from usertable where Role='Teacher'";
-        countInitialize(connectDB, StudentCount , TeacherCount);
+        countInitialize(connectDB, StudentCount, TeacherCount);
 
 
         String[] years = {"2019", "2020", "2021", "2022", "2023"};
@@ -190,7 +193,7 @@ public class AdminController  {
 
     }
 
-    private  void initializeAssetYearChart(String[] years , int[] totalAssets){
+    private void initializeAssetYearChart(String[] years, int[] totalAssets) {
         CategoryAxis xAxis = new CategoryAxis();
         xAxis.setLabel("Year");
 
@@ -211,28 +214,29 @@ public class AdminController  {
         assetYearChart.getData().add(series);
     }
 
-    private  void countInitialize(Connection connectDB, String StudentCount, String TeacherCount) {
+    private void countInitialize(Connection connectDB, String StudentCount, String TeacherCount) {
         try {
             PreparedStatement StStatement = connectDB.prepareStatement(StudentCount);
             ResultSet StResultSet = StStatement.executeQuery();
 
             if (StResultSet.next()) {
                 int count = StResultSet.getInt(1);
-                CountStudent.setText("Total Student :"+count);
+                CountStudent.setText("Total Student :" + count);
             }
 
             PreparedStatement TrStatement = connectDB.prepareStatement(TeacherCount);
             ResultSet TrResultSet = TrStatement.executeQuery();
             if (TrResultSet.next()) {
                 int count = TrResultSet.getInt(1);
-                CountTeacher.setText("Total Teacher :"+count);
+                CountTeacher.setText("Total Teacher :" + count);
             }
 
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
     }
-    protected void  loadPage(String page) {
+
+    protected void loadPage(String page) {
         Parent root = null;
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource(page));
@@ -250,22 +254,28 @@ public class AdminController  {
     public void DashBoardBackGroundRemove() {
         btnDashboard.setStyle("-fx-border-color: white; -fx-background-color:#25944c");
     }
+
     public void DepartmentBackGroundRemove() {
         btnDepartment.setStyle("-fx-border-color: white; -fx-background-color:#25944c");
     }
+
     public void StudentBackGroundRemove() {
         btnStudent.setStyle("-fx-border-color: white; -fx-background-color:#25944c");
     }
-    public  void  TeacherBackGroundRemove() {
+
+    public void TeacherBackGroundRemove() {
         btnTeacher.setStyle("-fx-border-color: white; -fx-background-color:#25944c");
     }
-    public  void  FinanceBackGroundRemove() {
+
+    public void FinanceBackGroundRemove() {
         btnFinance.setStyle("-fx-border-color: white; -fx-background-color:#25944c");
     }
-    public  void  NoticeBackGroundRemove() {
+
+    public void NoticeBackGroundRemove() {
         btnNotice.setStyle("-fx-border-color: white; -fx-background-color:#25944c");
     }
-    public void CalenderBackGroundRemove(){
+
+    public void CalenderBackGroundRemove() {
         btnCalender.setStyle("-fx-border-color: white; -fx-background-color:#25944c");
     }
 

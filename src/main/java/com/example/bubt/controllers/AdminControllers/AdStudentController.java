@@ -5,11 +5,13 @@ import com.example.bubt.utils.Student;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.scene.control.*;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
@@ -54,8 +56,9 @@ public class AdStudentController {
     private TableColumn<Student, String> TableStSubject;
     @FXML
     private TableColumn<Student, String> TableStPassword;
+
     @FXML
-    public void  OnSubmitStudentClicked(){
+    public void OnSubmitStudentClicked() {
         String name = StFdName.getText();
         String email = StFdEmail.getText();
         String subject = StFdSubject.getText();
@@ -66,103 +69,53 @@ public class AdStudentController {
         String address = StFdAddress.getText();
         String city = StFdCity.getText();
 
-        if(name.isEmpty() || email.isEmpty() || subject.isEmpty() || intake.isEmpty() || phone.isEmpty() || section.isEmpty() || password.isEmpty()|| address.isEmpty())
-        {
-            Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setTitle("Error");
-            alert.setHeaderText("Text field is empty");
-            alert.setContentText(null);
-            alert.showAndWait();
-        }
-        else {
+        if (name.isEmpty() || email.isEmpty() || subject.isEmpty() || intake.isEmpty() || phone.isEmpty() || section.isEmpty() || password.isEmpty() || address.isEmpty()) {
+            showAlert("Error", "Text field is empty");
+        } else {
             try {
                 SqlDB reqDB = new SqlDB();
-                Connection connectDB = reqDB.getDatabaseLink();
 
-                String Role = "Student";
+                // Insert data into 'usertable'
+                String role = "Student";
                 String sqlUser = "INSERT INTO usertable (Name, Email, Password, Role) VALUES (?, ?, ?, ?)";
-                PreparedStatement userStatement = reqDB.Statement(sqlUser);
-                userStatement.setString(1, name);
-                userStatement.setString(2, email);
-                userStatement.setString(3, password);
-                userStatement.setString(4, Role);
-                int userInserted = userStatement.executeUpdate();
+                boolean userInserted = reqDB.ExecuteUpdate(sqlUser, new Object[]{name, email, password, role});
 
-                if (userInserted > 0)
-                {
-                    String getUserIdQuery = "SELECT id FROM usertable WHERE Email='"+email+"' AND Password='"+password+"'";
-                    PreparedStatement userIdStatement = connectDB.prepareStatement(getUserIdQuery);
-                    ResultSet getUserId = userIdStatement.executeQuery();
+                if (userInserted) {
 
-                    if(getUserId.next())
-                    {
-                        int userID = getUserId.getInt("id");
+                    String getUserIdQuery = "SELECT id FROM usertable WHERE Email=? AND Password=?";
+                    Object[] params = {email, password};
+                    ResultSet getUserId = reqDB.ExecuteQuery(getUserIdQuery, params);
 
-                        String sql = "INSERT INTO studenttable (user_ID, Name, Email, Intake, Section, Phone, Address, Subject, Password) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
-                        PreparedStatement statement = connectDB.prepareStatement(sql);
-                        statement.setInt(1, userID);
-                        statement.setString(2, name);
-                        statement.setString(3, email);
-                        statement.setString(4, intake);
-                        statement.setString(5, section);
-                        statement.setString(6, phone);
-                        statement.setString(7, address);
-                        statement.setString(8, subject);
-                        statement.setString(9, password);
-
-                        int rowsInserted = statement.executeUpdate();
-
-                        if (rowsInserted > 0) {
-                            StFdName.setText("");
-                            StFdEmail.setText("");
-                            StFdSubject.setText("");
-                            StFdIntake.setText("");
-                            StFdPhone.setText("");
-                            StFdSection.setText("");
-                            StFdPassword.setText("");
-                            StFdAddress.setText("");
-                            StFdCity.setText("");
-
-                            Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                            alert.setTitle("Success");
-                            alert.setHeaderText("A new record has been inserted successfully.");
-                            alert.setContentText(null);
-                            alert.showAndWait();
-
-                        }
-                        else
-                        {
-                            Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                            alert.setTitle("Error");
-                            alert.setHeaderText(null);
-                            alert.setContentText("Some problem to insert New Record");
-                            alert.showAndWait();
-                        }
-
+                    int userID = 0;
+                    if (getUserId.next()) {
+                        userID = getUserId.getInt("id");
                     }
-                }
-                else
-                {
-                    Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                    alert.setTitle("Error");
-                    alert.setHeaderText(null);
-                    alert.setContentText("User data don't inserted");
-                    alert.showAndWait();
-                }
 
-                
+                    // Insert data into 'studenttable'
+                    String sqlStudent = "INSERT INTO studenttable (user_ID, Name, Email, Intake, Section, Phone, Address, Subject, Password) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                    boolean studentInserted = reqDB.ExecuteUpdate(sqlStudent, new Object[]{userID, name, email, intake, section, phone, address, subject, password});
+
+                    if (studentInserted) {
+                        clearTextFields();
+                        populateTableView();
+                        showAlert("Success", "A new record has been inserted successfully.");
+                    } else {
+                        showAlert("Error", "Some problem occurred while inserting a new record.");
+                    }
+                } else {
+                    showAlert("Error", "User data could not be inserted.");
+                }
             } catch (SQLException e) {
-                System.out.println("Error inserting record: " + e.getMessage());
+                showAlert("Error", "Error inserting record: " + e.getMessage());
             }
         }
     }
+
     @FXML
     public void initialize() {
-
         populateTableView();
     }
 
-    // Method to fetch data from the database and populate the TableView
     private void populateTableView() {
         TablestId.setCellValueFactory(new PropertyValueFactory<>("userID"));
         TableStName.setCellValueFactory(new PropertyValueFactory<>("name"));
@@ -173,57 +126,44 @@ public class AdStudentController {
         TableStAddress.setCellValueFactory(new PropertyValueFactory<>("address"));
         TableStSubject.setCellValueFactory(new PropertyValueFactory<>("subject"));
         TableStPassword.setCellValueFactory(new PropertyValueFactory<>("password"));
+
         try {
-            // Create a connection to your database
             SqlDB reqDB = new SqlDB();
-            Connection connection = reqDB.getDatabaseLink(); // Replace YourDatabaseUtil.getConnection() with your actual method to get a database connection
-
-            // SQL query to fetch data from the studenttable
             String query = "SELECT * FROM studenttable";
+            ResultSet resultSet = reqDB.prepareStatement(query).executeQuery();
 
-            // Create a PreparedStatement object
-            PreparedStatement preparedStatement = connection.prepareStatement(query);
-
-            // Execute the query and get the result set
-            ResultSet resultSet = preparedStatement.executeQuery();
-
-            // Create an ObservableList to store the student data
             ObservableList<Student> students = FXCollections.observableArrayList();
-
-            // Loop through the result set and add student objects to the ObservableList
             while (resultSet.next()) {
-                Student student = new Student(
-                        resultSet.getInt("user_ID"),
-                        resultSet.getString("Name"),
-                        resultSet.getString("Email"),
-                        resultSet.getString("Intake"),
-                        resultSet.getString("Section"),
-                        resultSet.getString("Phone"),
-                        resultSet.getString("Address"),
-                        resultSet.getString("Subject"),
-                        resultSet.getString("Password")
-                );
+                Student student = new Student(resultSet.getInt("user_ID"), resultSet.getString("Name"), resultSet.getString("Email"), resultSet.getString("Intake"), resultSet.getString("Section"), resultSet.getString("Phone"), resultSet.getString("Address"), resultSet.getString("Subject"), resultSet.getString("Password"));
                 students.add(student);
             }
 
-            // Set the data to the TableView
             stViewTable.setItems(students);
 
-            // Close the result set, statement, and connection
             resultSet.close();
-            preparedStatement.close();
-            connection.close();
-
         } catch (SQLException e) {
-            // Handle any SQL exceptions
+            showAlert("Error", "Failed to fetch data from the database.");
             e.printStackTrace();
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Error");
-            alert.setHeaderText("Failed to fetch data");
-            alert.setContentText("An error occurred while fetching data from the database.");
-            alert.showAndWait();
         }
     }
+
+    private void showAlert(String title, String message) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+        alert.showAndWait();
+    }
+
+    private void clearTextFields() {
+        StFdName.clear();
+        StFdEmail.clear();
+        StFdSubject.clear();
+        StFdIntake.clear();
+        StFdPhone.clear();
+        StFdSection.clear();
+        StFdPassword.clear();
+        StFdAddress.clear();
+        StFdCity.clear();
+    }
 }
-
-

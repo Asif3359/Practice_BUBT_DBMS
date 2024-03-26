@@ -15,7 +15,7 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
-public class SingUpController  {
+public class SingUpController {
     @FXML
     private Label welcomeText;
 
@@ -37,13 +37,13 @@ public class SingUpController  {
     }
 
     @FXML
-    protected  void  onSingUpButtonClick()
-    {
+    protected void onSingUpButtonClick() {
 
         fldEmail.setText("asifahammedNishat@gmail.com");
     }
+
     @FXML
-    protected void onLogInButtonClick (ActionEvent event) throws Exception {
+    protected void onLogInButtonClick(ActionEvent event) throws Exception {
         // Load the new FXML file
 
         Node source = (Node) event.getSource();
@@ -54,7 +54,7 @@ public class SingUpController  {
         // Stage newStage = new Stage();
         // main.start(newStage);
 
-        changeSceen login = new changeSceen("/com/example/bubt/Main-view.fxml","BUBT-Login");
+        changeSceen login = new changeSceen("/com/example/bubt/Main-view.fxml", "BUBT-Login");
         Stage newStage = new Stage();
         login.start(newStage);
 

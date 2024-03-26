@@ -41,6 +41,7 @@ public class MainController {
     protected void onHelloButtonClick() {
         welcomeText.setText("Welcome to JavaFX Application!");
     }
+
     public void initialize() {
         ObservableList<String> values = FXCollections.observableArrayList(
                 "Admin",
@@ -52,20 +53,19 @@ public class MainController {
     }
 
     @FXML
-    protected  void  onLogInButtonClick(ActionEvent event) throws Exception
-    {
-        SqlDB reqDB = new SqlDB();
-        Connection connectDB = reqDB.getDatabaseLink();
-
-        String email = fldEmail.getText().trim();
-        String password = fldPassword.getText().trim();
-        String role = userRole.getValue();
-
-        String connectQuery = "SELECT Name, Email, Password,Role FROM usertable WHERE Email='"+email+"'";
-
-
+    protected void onLogInButtonClick(ActionEvent event) throws Exception {
         try {
+            SqlDB reqDB = new SqlDB();
+            Connection connectDB = reqDB.getDatabaseLink();
+
+            String email = fldEmail.getText().trim();
+            String password = fldPassword.getText().trim();
+            String role = userRole.getValue();
+
+            String connectQuery = "SELECT Name, Email, Password, Role FROM usertable WHERE Email=?";
+
             PreparedStatement statement = connectDB.prepareStatement(connectQuery);
+            statement.setString(1, email);
             ResultSet resultSet = statement.executeQuery();
 
             if (resultSet.next()) {
@@ -74,91 +74,58 @@ public class MainController {
                 String retrievedPassword = resultSet.getString("Password");
                 String retrievedRole = resultSet.getString("Role");
 
-                if (retrievedEmail.equals(email) && retrievedPassword.equals(password))
-                {
-                    if(retrievedRole.equals("Admin"))
-                    {
-                        // admin sceen
-                        Node source = (Node) event.getSource();
-                        Stage stage = (Stage) source.getScene().getWindow();
-                        stage.close();
-
-                        changeSceen SingUp = new changeSceen("/com/example/bubt/views/Admin-view.fxml","BUBT-Admin");
-                        Stage newStage = new Stage();
-                        SingUp.start(newStage);
-
-                        newStage.show();
+                if (retrievedEmail.equals(email) && retrievedPassword.equals(password)) {
+                    switch (retrievedRole) {
+                        case "Admin":
+                            changeScreen(event, "/com/example/bubt/views/Admin-view.fxml", "BUBT-Admin");
+                            break;
+                        case "Student":
+                            changeScreen(event, "/com/example/bubt/views/Student-view.fxml", "BUBT-Student");
+                            break;
+                        case "Teacher":
+                            changeScreen(event, "/com/example/bubt/views/Teacher-view.fxml", "BUBT-Teacher");
+                            break;
+                        case "Guest":
+                            // Handle guest scenario
+                            break;
+                        default:
+                            WorningTxt.setText("Please Select Role");
+                            break;
                     }
-                    else if (retrievedRole.equals("Student")) {
-                        // Student sceen
-                        Node source = (Node) event.getSource();
-                        Stage stage = (Stage) source.getScene().getWindow();
-                        stage.close();
-
-                        changeSceen SingUp = new changeSceen("/com/example/bubt/views/Student-view.fxml","BUBT-Student");
-                        Stage newStage = new Stage();
-                        SingUp.start(newStage);
-
-                        newStage.show();
-                    }
-                    else if (retrievedRole.equals("Teacher")) {
-                        // Teacher Sceen
-                        Node source = (Node) event.getSource();
-                        Stage stage = (Stage) source.getScene().getWindow();
-                        stage.close();
-
-                        changeSceen SingUp = new changeSceen("/com/example/bubt/views/Teacher-view.fxml","BUBT-Teacher");
-                        Stage newStage = new Stage();
-                        SingUp.start(newStage);
-
-                        newStage.show();
-                    }
-                    else if (retrievedRole.equals("Guest")) {
-                        // guest Sceen
-                    }
-                    else {
-                        WorningTxt.setText("Please Select Role");
-                    }
-
                     WorningTxt.setText("");
-                }
-                else
-                {
+                } else {
                     WorningTxt.setText("Invalid credentials");
                 }
             } else {
-                WorningTxt.setText("Email dose not Match!");
-
+                WorningTxt.setText("Email does not Match!");
             }
+
+            resultSet.close();
+            statement.close();
+            connectDB.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
+
     @FXML
     protected void onSingUpButtonClick(ActionEvent event) throws Exception {
-        // Load the new FXML file
-
-        Node source = (Node) event.getSource();
-        Stage stage = (Stage) source.getScene().getWindow();
-        stage.close();
-
-        changeSceen SingUp = new changeSceen("/com/example/bubt/views/singup-view.fxml","BUBT-SingUp");
-        Stage newStage = new Stage();
-        SingUp.start(newStage);
-
-        newStage.show();
+        changeScreen(event, "/com/example/bubt/views/singup-view.fxml", "BUBT-SingUp");
     }
 
-}
+    private void changeScreen(ActionEvent event, String viewPath, String title) {
+        try {
+            Node source = (Node) event.getSource();
+            Stage stage = (Stage) source.getScene().getWindow();
+            stage.close();
 
-        /*
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/com/example/bubt/views/singup-view.fxml"));
-        Parent root = fxmlLoader.load();
-        Stage newStage = new Stage();
-        Scene newScene = new Scene(root, 900, 500);
-        newStage.setScene(newScene);
-        newStage.setTitle("BUBT-SingUp");
-        */
-        //statement = connectDB.prepareStatement(connectQuery);
-        // statement.setString(1, email);
-        // resultSet = statement.executeQuery();
+            changeSceen signUp = new changeSceen(viewPath, title);
+            Stage newStage = new Stage();
+            signUp.start(newStage);
+
+            newStage.show();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+}
