@@ -14,4 +14,5 @@ module com.example.bubt {
     exports com.example.bubt;
     exports com.example.bubt.controllers;
     exports com.example.bubt.controllers.AdminControllers;
+    opens com.example.bubt.Models to javafx.base;
 }

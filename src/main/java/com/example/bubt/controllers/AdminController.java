@@ -147,17 +147,10 @@ public class AdminController {
 
     public void initialize() {
         btnDashboard.setStyle("-fx-border-color: white; -fx-background-color:#25944c");
-        //todo
-        SqlDB reqDB = new SqlDB();
-        Connection connectDB = null;
-        try {
-            connectDB = reqDB.getDatabaseLink();
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-        String StudentCount = "SELECT count(Role) from usertable where Role='Student'";
-        String TeacherCount = "SELECT count(Role) from usertable where Role='Teacher'";
-        countInitialize(connectDB, StudentCount, TeacherCount);
+
+        String StudentCount = "SELECT count(Role) from usertable where Role=?";
+        String TeacherCount = "SELECT count(Role) from usertable where Role=?";
+        countInitialize(StudentCount, TeacherCount);
 
 
         String[] years = {"2019", "2020", "2021", "2022", "2023"};
@@ -214,18 +207,17 @@ public class AdminController {
         assetYearChart.getData().add(series);
     }
 
-    private void countInitialize(Connection connectDB, String StudentCount, String TeacherCount) {
+    private void countInitialize(String StudentCount, String TeacherCount) {
+        SqlDB db = new SqlDB();
         try {
-            PreparedStatement StStatement = connectDB.prepareStatement(StudentCount);
-            ResultSet StResultSet = StStatement.executeQuery();
+            ResultSet StResultSet = db.ExecuteQuery(StudentCount,new Object[]{"Student"});
 
             if (StResultSet.next()) {
                 int count = StResultSet.getInt(1);
                 CountStudent.setText("Total Student :" + count);
             }
 
-            PreparedStatement TrStatement = connectDB.prepareStatement(TeacherCount);
-            ResultSet TrResultSet = TrStatement.executeQuery();
+            ResultSet TrResultSet = db.ExecuteQuery(TeacherCount, new Object[]{"Teacher"});
             if (TrResultSet.next()) {
                 int count = TrResultSet.getInt(1);
                 CountTeacher.setText("Total Teacher :" + count);

@@ -13,12 +13,12 @@ public class SqlDB {
         try {
             // Load the MySQL JDBC driver class
             Class.forName("com.mysql.jdbc.Driver");
+            return DriverManager.getConnection(url, user, password);
         } catch (ClassNotFoundException e) {
             showAlert("Error", "MySQL JDBC Driver not found!");
             throw new RuntimeException(e);
         }
 
-        return DriverManager.getConnection(url, user, password);
     }
 
     public PreparedStatement prepareStatement(String sqlStatement) {

@@ -226,7 +226,7 @@
                                           </HBox>
                                           <HBox alignment="CENTER_LEFT" GridPane.rowIndex="11">
                                              <children>
-                                                <Button minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="29.0" prefWidth="76.0" text="Button" />
+                                                <Button fx:id="btnStUpdate" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#onBtnStUpdateClicked" prefHeight="29.0" prefWidth="76.0" text="Update" />
                                              </children>
                                           </HBox>
                                           <HBox alignment="CENTER_LEFT" GridPane.rowIndex="1">

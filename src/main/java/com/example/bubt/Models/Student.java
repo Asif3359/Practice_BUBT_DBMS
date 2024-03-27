@@ -1,4 +1,4 @@
-package com.example.bubt.utils;
+package com.example.bubt.Models;
 
 public class Student {
 

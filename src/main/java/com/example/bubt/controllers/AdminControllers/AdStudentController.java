@@ -1,7 +1,7 @@
 package com.example.bubt.controllers.AdminControllers;
 
 import com.example.bubt.utils.SqlDB;
-import com.example.bubt.utils.Student;
+import com.example.bubt.Models.Student;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -140,6 +140,38 @@ public class AdStudentController {
     }
 
     @FXML
+    public void onBtnStUpdateClicked() {
+
+        String stStIdText = TfStStId.getText();
+        String stIdText = TfStId.getText();
+
+        try {
+            int stStId = Integer.parseInt(stStIdText);
+            int stId = Integer.parseInt(stIdText);
+
+            SqlDB reqDB = new SqlDB();
+            String updateQuery = "UPDATE studenttable SET Name = ?, Email = ?, Intake = ?, Section = ?, Phone = ?, Address = ?, Subject = ?, Password = ? WHERE Student_ID = ?";
+
+            boolean updateSuccessful = reqDB.ExecuteUpdate(updateQuery, new Object[]{TfStName.getText(), TfStEmail.getText(), TfStIntake.getText(), TfStSection.getText(), TfStPhone.getText(), TfStAddress.getText(), TfStSubject.getText(), TfStPassword.getText(), stStId});
+
+            if (updateSuccessful) {
+                initialize();
+                showAlert("Success", "Successful: Data Updated Successfully!");
+            } else {
+//                System.out.println("Update unsuccessful: No rows affected or other reasons");
+                showAlert("Error", "Unsuccessful: No rows affected or other reasons");
+            }
+
+        } catch (NumberFormatException e) {
+            showAlert("Error", "Failed to parse integers.");
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            showAlert("Error", "An unexpected error occurred.");
+        }
+
+    }
+
+    @FXML
     public void initialize() {
         populateTableView();
         handleRowSelection();
@@ -201,7 +233,6 @@ public class AdStudentController {
         // Add listener to print row values when a row is clicked
         stViewTable.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
             if (newSelection != null) {
-                // Print the values of the selected row
                 setTextField(newSelection);
             }
         });
