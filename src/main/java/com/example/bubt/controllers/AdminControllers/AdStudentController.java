@@ -1,5 +1,6 @@
 package com.example.bubt.controllers.AdminControllers;
 
+import com.example.bubt.utils.ShowAlert;
 import com.example.bubt.utils.SqlDB;
 import com.example.bubt.Models.Student;
 import javafx.collections.FXCollections;
@@ -98,7 +99,8 @@ public class AdStudentController {
         String city = StFdCity.getText();
 
         if (name.isEmpty() || email.isEmpty() || subject.isEmpty() || intake.isEmpty() || phone.isEmpty() || section.isEmpty() || password.isEmpty() || address.isEmpty()) {
-            showAlert("Error", "Text field is empty");
+            ShowAlert alert = new ShowAlert();
+            alert.showAlert("Error", "Text field is empty");
         } else {
             try {
                 SqlDB reqDB = new SqlDB();
@@ -126,15 +128,20 @@ public class AdStudentController {
                     if (studentInserted) {
                         clearTextFields();
                         populateTableView();
-                        showAlert("Success", "A new record has been inserted successfully.");
+
+                        ShowAlert alert = new ShowAlert();
+                        alert.showAlert("Success", "A new record has been inserted successfully.");
                     } else {
-                        showAlert("Error", "Some problem occurred while inserting a new record.");
+                        ShowAlert alert = new ShowAlert();
+                        alert.showAlert("Error", "Some problem occurred while inserting a new record.");
                     }
                 } else {
-                    showAlert("Error", "User data could not be inserted.");
+                    ShowAlert alert = new ShowAlert();
+                    alert.showAlert("Error", "User data could not be inserted.");
                 }
             } catch (SQLException e) {
-                showAlert("Error", "Error inserting record: " + e.getMessage());
+                ShowAlert alert = new ShowAlert();
+                alert.showAlert("Error", "Error inserting record:" + e.getMessage());
             }
         }
     }
@@ -156,17 +163,21 @@ public class AdStudentController {
 
             if (updateSuccessful) {
                 initialize();
-                showAlert("Success", "Successful: Data Updated Successfully!");
+                ShowAlert alert = new ShowAlert();
+                alert.showAlert("Success", "Successful: Data Updated Successfully!");
             } else {
 //                System.out.println("Update unsuccessful: No rows affected or other reasons");
-                showAlert("Error", "Unsuccessful: No rows affected or other reasons");
+                ShowAlert alert = new ShowAlert();
+                alert.showAlert("Error", "Unsuccessful: No rows affected or other reasons");
             }
 
         } catch (NumberFormatException e) {
-            showAlert("Error", "Failed to parse integers.");
+            ShowAlert alert = new ShowAlert();
+            alert.showAlert("Error", "Failed to parse integers." + e.getMessage());
         } catch (Exception ex) {
             ex.printStackTrace();
-            showAlert("Error", "An unexpected error occurred.");
+            ShowAlert alert = new ShowAlert();
+            alert.showAlert("Error", "An unexpected error occurred." + ex.getMessage());
         }
 
     }
@@ -204,18 +215,13 @@ public class AdStudentController {
 
             resultSet.close();
         } catch (SQLException e) {
-            showAlert("Error", "Failed to fetch data from the database.");
+            ShowAlert alert = new ShowAlert();
+            alert.showAlert("Error", "Failed to fetch data from the database." + e.getMessage());
             e.printStackTrace();
         }
     }
 
-    private void showAlert(String title, String message) {
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle(title);
-        alert.setHeaderText(null);
-        alert.setContentText(message);
-        alert.showAndWait();
-    }
+
 
     private void clearTextFields() {
         StFdName.clear();
@@ -264,7 +270,8 @@ public class AdStudentController {
 
                 if (!resultSet.next()) {
                     // No record found, show a message
-                    showAlert("Error", "No record found for the provided student ID.");
+                    ShowAlert alert = new ShowAlert();
+                    alert.showAlert("Error", "No record found for the provided student ID.");
                 } else {
                     // Record found, proceed with data retrieval and display
                     do {
@@ -284,11 +291,13 @@ public class AdStudentController {
                 }
 
             } catch (SQLException e) {
-                showAlert("Error", "Failed to fetch data from the database.");
+                ShowAlert alert = new ShowAlert();
+                alert.showAlert("Error", "Failed to fetch data from the database." + e.getMessage());
                 e.printStackTrace();
             }
         } else {
-            showAlert("Error", "Text field is empty");
+            ShowAlert alert = new ShowAlert();
+            alert.showAlert("Error", "Text field is empty");
         }
 
     }

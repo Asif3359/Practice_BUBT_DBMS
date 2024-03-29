@@ -15,10 +15,10 @@ public class SqlDB {
             Class.forName("com.mysql.jdbc.Driver");
             return DriverManager.getConnection(url, user, password);
         } catch (ClassNotFoundException e) {
-            showAlert("Error", "MySQL JDBC Driver not found!");
+            ShowAlert alert = new ShowAlert();
+            alert.showAlert("Error", "MySQL JDBC Driver not found!" + e.getMessage());
             throw new RuntimeException(e);
         }
-
     }
 
     public PreparedStatement prepareStatement(String sqlStatement) {
@@ -26,7 +26,8 @@ public class SqlDB {
             Connection connectDB = getDatabaseLink();
             return connectDB.prepareStatement(sqlStatement);
         } catch (SQLException e) {
-            showAlert("Error", "Database is not connected!");
+            ShowAlert alert = new ShowAlert();
+            alert.showAlert("Error", "Database is not connected!" + e.getMessage());
             throw new RuntimeException(e);
         }
     }
@@ -49,6 +50,8 @@ public class SqlDB {
             }
             return rowsAffected > 0;
         } catch (SQLException e) {
+            ShowAlert alert = new ShowAlert();
+            alert.showAlert("Error", "Database is not connected!" + e.getMessage());
             e.printStackTrace();
             return false;
         }
@@ -69,16 +72,11 @@ public class SqlDB {
             }
             return statement.executeQuery();
         } catch (SQLException e) {
+            ShowAlert alert = new ShowAlert();
+            alert.showAlert("Error", "Database is not connected!" + e.getMessage());
             e.printStackTrace();
             return null; // or throw an exception
         }
     }
 
-    private void showAlert(String title, String message) {
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle(title);
-        alert.setHeaderText(message);
-        alert.setContentText(null);
-        alert.showAndWait();
-    }
 }

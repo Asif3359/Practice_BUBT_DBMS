@@ -1,5 +1,6 @@
 package com.example.bubt.controllers;
 
+import com.example.bubt.utils.ShowAlert;
 import com.example.bubt.utils.SqlDB;
 import com.example.bubt.utils.changeSceen;
 import javafx.collections.FXCollections;
@@ -104,7 +105,10 @@ public class MainController {
             statement.close();
             connectDB.close();
         } catch (SQLException e) {
+            ShowAlert alert = new ShowAlert();
+            alert.showAlert("Error", "MySQL JDBC Driver not found!" + e.getMessage());
             e.printStackTrace();
+
         }
     }
 
@@ -128,4 +132,5 @@ public class MainController {
             e.printStackTrace();
         }
     }
+
 }
